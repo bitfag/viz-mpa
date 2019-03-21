@@ -25,5 +25,5 @@ Crontab (user, `crontab -e`). Note: replace `user` with your unix account name!
 ```
 UNLOCK=your_wallet_passphrase
 PATH=/home/user/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
-*/10 * * * * cd /home/user/bitshares-pricefeed/ && pipenv run ./cli.py --node ws://localhost:7090 --configfile ./config.yml update --skip-critical --no-confirm-warning >> ./bitshares-pricefeed.log 2>&
+*/10 * * * * cd /home/user/bitshares-pricefeed/ && pipenv run ./cli.py --node ws://localhost:7090 --configfile ./config.yml update --skip-critical --no-confirm-warning >> ./bitshares-pricefeed.log 2>&1
 ```
