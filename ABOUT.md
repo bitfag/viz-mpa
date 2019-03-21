@@ -20,6 +20,10 @@ Price feeding currently performed by asset issuer. Because VIZ markets are not y
 
 Across several markets, measure orderbook for 20% DEPTH to obtain liquidity volume in this range. Then, calculate weighted average buy and sell price inside this DEPTH. From these prices, calculate center price.  Use weighted average center prices across several markets, where weight is proportional to liqudity volume of the market. This means that markets with high orderbook liquidity influence more than markets with low liquidity.
 
+# Global Settlement (Black Swan) protection
+
+The asset has a GS protection via pricefeed algorithm. It will limit feed price by not allowing it to cross the GS price.
+
 # Force settlements
 
 Force settlements are recommended as emergency mechanism when asset holder cannot exchange their VIZBTS to another asset for some reason, or for absolutely emergency case when VIZBTS asset issuer is lost (e.g. sudden death).
