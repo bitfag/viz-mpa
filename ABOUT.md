@@ -16,19 +16,25 @@ The general audience are those who involved in [VIZ community](https://viz.world
 
 # Price feeding
 
-Price feeding currently performed by asset issuer. Because VIZ markets are not yet well-established and VIZ is not listed on exchanges except BitShares, we'll use a special techniques to provide price feed:
+Price feeding currently performed by asset issuer. Because VIZ markets are not yet well-established and VIZ is not listed on exchanges except BitShares, we'll use a special technique to provide price feed:
 
-* Measure buy order book depth for at least 1000 VIZ on several markets to calculate where is strong buy support. Use averaged buy prices across markets.
-* Avoid manipulations by not allowing explosive feed price rise (see below)
-
-# Margin Call protection
-
-At this point, borrowers are protected from **sudden** margin calls by limiting feed price elevation rate. Despite of market movements, feed price daily increase is limited by ~10% rate.
-
-If price moving in down direction, feed price will be adjusted down with no limits.
+Across several markets, measure orderbook for 20% DEPTH to obtain liquidity volume in this range. Then, calculate weighted average buy and sell price inside this DEPTH. From these prices, calculate center price.  Use weighted average center prices across several markets, where weight is proportional to liqudity volume of the market. This means that markets with high orderbook liquidity influence more than markets with low liquidity.
 
 # Force settlements
 
 Force settlements are recommended as emergency mechanism when asset holder cannot exchange their VIZBTS to another asset for some reason, or for absolutely emergency case when VIZBTS asset issuer is lost (e.g. sudden death).
 
 To discourage unconducive force settlements and protect borrowers, a **Force Settlement Offset** is set to 6%. This means, if feed price is 1, asset holder will settle at price `1 - 6% = 0.94`
+
+# Asset options
+
+* MCR: 200%
+* MSSR: 112%
+* Feed lifetime: 4 months. Such a big time buffer is needed to allow force settlements in emergency case
+* Force Settlement Delay: 24 hours
+* Force Settlement Offset: 6%
+* Maximum Force Settlement Volume: 5%
+
+# Asset flags
+
+* Market fee: 0.05%
