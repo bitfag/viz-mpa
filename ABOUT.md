@@ -22,13 +22,15 @@ Across several markets, measure orderbook for 20% DEPTH to obtain liquidity volu
 
 # Sudden Margin Call protection
 
-Because VIZ markets are pretty unmature, it's easy for an attacker to create high volatility to cause Margin Call and gain profits by selling previously bought VIZBTS into Margin Call order realizing profits.
+Because VIZ markets are pretty immature, it's easy for an attacker to create high volatility to cause Margin Call and gain profits by selling previously bought VIZBTS into Margin Call order.
 
-To protect borrowers from this kind of manipulations, we're limiting feed price elevation rate. Price feed computations are performed once in 10 minutes. Each time, the algorithm is allowed to increase price "BTS per VIZ" no more than 1%. This means max daily increase is 144%.
+To protect borrowers from this kind of manipulation, we're limiting feed price elevation rate. Price feed computations are performed once in 10 minutes. Each time, the algorithm is allowed to increase price "BTS per VIZ" no more than 1%. This means max daily increase is 144%. To give an example, let's say a borrower has CR=300%. This means that to drop CR below 175% it tooks 20.83 hours of time.
 
-Meanwhile, max possible price increase is limited by `CR_least - MSSR` (CR_least is a collateral ratio of the least collaterized position).
+Meanwhile, max possible price increase is limited by `CR_least - MSSR` (where CR_least is a collateral ratio of the least collaterized position).
 
 Such price elevation limiting assumes that price elevation normally will not exceed `CR_least - MSSR` faster than increase of the price feed. If it is, the asset will fail into undercollateralized state until price returns, because the GS protection is active.
+
+If `CR_least = 175%`, and `MSSR = 112%`, then diff is 63%, at increase rate 1% per 10 minutes, 63% increase will take 10.5 hours.
 
 # Global Settlement (Black Swan) protection
 
