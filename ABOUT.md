@@ -20,6 +20,16 @@ Price feeding currently performed by asset issuer. Because VIZ markets are not y
 
 Across several markets, measure orderbook for 20% DEPTH to obtain liquidity volume in this range. Then, calculate weighted average buy and sell price inside this DEPTH. From these prices, calculate center price.  Use weighted average center prices across several markets, where weight is proportional to liqudity volume of the market. This means that markets with high orderbook liquidity influence more than markets with low liquidity.
 
+# Sudden Margin Call protection
+
+Because VIZ markets are pretty unmature, it's easy for an attacker to create high volatility to cause Margin Call and gain profits by selling previously bought VIZBTS into Margin Call order realizing profits.
+
+To protect borrowers from this kind of manipulations, we're limiting feed price elevation rate. Price feed computations are performed once in 10 minutes. Each time, the algorithm is allowed to increase price "BTS per VIZ" no more than 1%. This means max daily increase is 144%.
+
+Meanwhile, max possible price increase is limited by `CR_least - MSSR` (CR_least is a collateral ratio of the least collaterized position).
+
+Such price elevation limiting assumes that price elevation normally will not exceed `CR_least - MSSR` faster than increase of the price feed. If it is, the asset will fail into undercollateralized state until price returns, because the GS protection is active.
+
 # Global Settlement (Black Swan) protection
 
 The asset has a GS protection via pricefeed algorithm. It will limit feed price by not allowing it to cross the GS price.
