@@ -16,7 +16,14 @@ The general audience are those who involved in [VIZ community](https://viz.world
 
 # Price feeding
 
-Price feeding currently performed by asset issuer. Because VIZ markets are not yet well-established and VIZ is not listed on exchanges except BitShares, we'll use a special technique to provide price feed:
+Price feeding currently performed by asset issuer. Because VIZ markets are not yet well-established and VIZ is not listed on exchanges except BitShares, we'll use a special technique to provide price feed. Across XCHNG.VIZ market *buy support* mode is used, and *center price* mode is used across VIZBTS markets.
+
+## Buy support mode
+
+Measure buy order book depth for at least 1000 VIZ on several markets to calculate where is strong buy support. Use averaged buy prices across markets
+
+
+## Center price mode
 
 Across several markets, measure orderbook for 20% DEPTH to obtain liquidity volume in this range. Then, calculate weighted average buy and sell price inside this DEPTH. From these prices, calculate center price.  Use weighted average center prices across several markets, where weight is proportional to liqudity volume of the market. This means that markets with high orderbook liquidity influence more than markets with low liquidity.
 
@@ -24,9 +31,9 @@ Across several markets, measure orderbook for 20% DEPTH to obtain liquidity volu
 
 Because VIZ markets are pretty immature, it's easy for an attacker to create high volatility to cause Margin Call and gain profits by selling previously bought VIZBTS into Margin Call order.
 
-To protect borrowers from this kind of manipulation, we're limiting feed price elevation rate. Price feed computations are performed once in 10 minutes. Each time, the algorithm is allowed to increase price "BTS per VIZ" no more than 1%. This means max daily increase is 144%. To give an example, let's say a borrower has CR=300%. This means that to drop CR below 175% it tooks 20.83 hours of time.
+To protect borrowers from this kind of manipulation, we're limiting feed price elevation rate. Price feed computations are performed once in a hour. Each time, the algorithm is allowed to increase price "BTS per VIZ" no more than 0.1%. This means max daily increase is ~2.4%.
 
-Meanwhile, max possible price increase is limited by `CR_least - MSSR` (where CR_least is a collateral ratio of the least collaterized position).
+Meanwhile, max possible price increase is limited by `CR_least - MSSR` (where CR\_least is a collateral ratio of the least collaterized position).
 
 Such price elevation limiting assumes that price elevation normally will not exceed `CR_least - MSSR` faster than increase of the price feed. If it is, the asset will fail into undercollateralized state until price returns, because the GS protection is active.
 
